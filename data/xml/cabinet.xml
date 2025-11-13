@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cabinet
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.univ-grenoble-alpes.fr/l3miage/medical"
+        xsi:schemaLocation="http://www.univ-grenoble-alpes.fr/l3miage/medical cabinet.xsd">
+
+    <!-- Nom du cabinet -->
+    <nom>Soins à Grenoble</nom>
+    
+    <!-- Adresse du cabinet -->
+    <adresse>
+        <!--Optional:-->
+        <etage>string</etage>
+        <!--Optional:-->
+        <numero>10</numero>
+        <rue>Avenue Alsace-Lorraine</rue>
+        <codePostal>38000</codePostal>
+        <ville>Grenoble</ville>
+    </adresse>
+    
+    <!-- Liste des patients -->
+    <patients>
+        <!--1 or more repetitions:-->
+          <!-- Premier patient -->
+        <patient>
+            <nom>Orouge</nom>
+            <prenom>Elvire</prenom>
+            <adresse>
+                <!--Optional:-->
+                <rue>Rond-Point de la Croix de Vie</rue>
+                <codePostal>38700</codePostal>
+                <ville>La Tronche</ville>
+            </adresse>
+            <naissance>1982-03-08</naissance>
+            <visites>
+                <visite date="2015-12-08" intervenant="001">
+                    <!--1 or more repetitions:-->
+                    <actes>
+                        <!--1 or more repetitions:-->
+                        <acte id="201">
+                            <type>Pansement de brûlure étendue</type>
+                            <coef>1.0</coef>
+                        </acte>
+                    </actes>
+                </visite>
+            </visites>
+            <numéro>282036912305212</numéro>
+        </patient>
+    
+        <!-- Deuxième patient -->
+        <patient>
+          <nom>Pien</nom>
+          <prenom>Oscare</prenom>
+          <adresse>
+              <rue>Rue Casimir Brenier</rue>
+              <codePostal>38000</codePostal>
+              <ville>Grenoble</ville>
+          </adresse>
+          <naissance>1975-03-25</naissance>
+          <visites>
+              <visite date="2015-12-08" intervenant="001">
+                  <actes>
+                      <acte id="101">
+                          <type>Ponction veineuse directe</type>
+                          <coef>1.5</coef>
+                      </acte>
+                      <acte id="104">
+                          <type>Injection intraveineuse d’antalgiques</type>
+                          <coef>2.0</coef>
+                      </acte>
+                  </actes>
+              </visite>
+          </visites>
+          <numéro>175036400069212</numéro>
+        </patient>
+    
+      <!-- Troisième patient -->
+        <patient>
+          <nom>Kapoëtla</nom>
+          <prenom>Xavier</prenom>
+          <adresse>
+              <numero>25</numero>
+              <rue>Rue des Martyrs</rue>
+              <codePostal>38042</codePostal>
+              <ville>Grenoble</ville>
+          </adresse>
+          <naissance>2011-08-02</naissance>
+          <visites>
+              <visite date="2015-12-08" intervenant="003">
+                  <actes>
+                      <acte id="301">
+                          <type>Injection de plusieurs allergènes</type>
+                          <coef>1.5</coef>
+                      </acte>
+                  </actes>
+              </visite>
+          </visites>
+          <numéro>111083306303512</numéro>
+        </patient>
+      </patients>
+    
+    <!-- Liste des infirmiers -->
+    <infirmiers>
+        <infirmier id="001">
+          <nom>Luu</nom>
+          <prenom>Loc</prenom>
+          <photo>loc.png</photo>
+        </infirmier>
+
+        <infirmier id="002">
+            <nom>Martin</nom>
+            <prenom>Sarah</prenom>
+            <photo>Sarah.jpg</photo>
+        </infirmier>
+    </infirmiers>
+</cabinet>

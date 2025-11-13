@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsl:stylesheet
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns="http://www.univ-grenoble-alpes.fr/l3miage/medical"
+        version="1.0">
+    
+    <!-- Type de sortie -->
+    <xsl:output method="html"/>
+
+    <!-- Modèle de sortie -->
+    <xsl:template match="/">
+        <!-- Paramètres -->
+        <xsl:param name="infirmierId">001</xsl:param>
+        
+        <html lang="en">
+            <head>
+                <link rel="stylesheet" href="style.css"/>
+                <meta charset="UTF-8"/>
+                <title>Title</title>
+            </head>
+            <body>
+                <h1>Service <xsl:value-of select="service/@nom"/></h1>
+                Bonjour <xsl:with-param name="infirmierId" select="cabinet/infirmiers/@nom"/>
+                
+                Aujourd'hui, vous avez <xsl:value-of select="count(patients)"/> patients.
+            </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>
+
+<!--  -->

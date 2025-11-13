@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--namespace: http://www.univ-grenoble-alpes.fr/l3miage/medical
+le cahier des charges du projet “Cabinet infirmier”.
+L’objectif est de créer une modélisation UML + XSD, puis d’aller plus loin avec XML, XSLT, et un mini-serveur.
+Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+       targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/medical"
+       xmlns:med="http://www.univ-grenoble-alpes.fr/l3miage/medical"
+       elementFormDefault="qualified">
+
+    <!-- Element racine -->
+    <element name="cabinet" type="med:Cabinet" >
+        <!-- Clé -->
+        <key name="idUnique">
+            <selector xpath="med:Infirmier"/>
+            <field xpath="@id"/>
+        </key>
+    </element>       
+
+    <!-- Contraindre davantage : clefs d’existence et d’unicité
+    Modifiez le Schema XML du centre de soin de façon à ce que les identifiants des médecins soient uniques.
+    Modifiez le Schema XML du centre de soin de façon à ce que les identifiants des médecins auquels se
+    réfèrent les patients existent. -->
+    
+    
+    <complexType name="Cabinet">
+        <sequence>
+            <element name="nom" type="string" />
+            <element name="adresse" type="med:Adresse" />
+            <element name="patients" type="med:Patients" />
+            <element name="infirmiers" type="med:Infirmiers" />
+        </sequence>
+    </complexType>
+
+    <!-- Liste de Patients -->
+    <complexType name="Patients">
+        <sequence>
+            <element name="patient" type="med:Patient" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+    
+    <!-- Patient -->
+    <complexType name="Patient">
+        <sequence>
+            <element name="nom" type="med:Appelation" />
+            <element name="prenom" type="med:Appelation" />
+            <element name="adresse" type="med:Adresse" />
+            <element name="naissance" type="date" />
+            <element name="visites" type="med:Visites" />
+            <element name="numéro" type="med:NumeroSecu">
+                <unique name="patient-Id">
+                    <selector xpath="Patient"/>
+                    <field xpath="@numéro"/>
+                </unique> 
+            </element>
+        </sequence>
+    </complexType>
+    
+    <!-- N° de sécurité social -->
+    <simpleType name="NumeroSecu">
+        <restriction base="string">
+            <!-- Explication du Format:
+            sexe: 1 (M) ou 2 (F)
+            année de naissance: 2 derniers chiffres
+            mois de naissance (01 ... 09 ou 10 ... 12)
+            département (01 .. 99)
+            code commune (000 .. 999)
+            code naissance (00 .. 99)
+            2 derniers chiffres (00 .. 99)
+            -->
+            <!--            | Sex |  Année  |     Mois    | Département   | Code commune | Code naissance | 2 chiffres -->
+            <pattern value="([1-2])([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[1-9][0-9])([0-9]{3})([0-9]{3})([0-9]{2})" />
+        </restriction>
+    </simpleType>
+
+    <!-- Class adresse -->
+    <complexType name="Adresse">
+        <!-- étage(si besoin), numéro(s'il existe), rue, ville, codePostal -->
+        <sequence>
+            <!-- RDC, 1, 2, 3 -->
+            <element name="etage" type="string" minOccurs="0" />
+            <element name="numero" minOccurs="0">
+                <simpleType>
+                    <restriction base="string">
+                        <pattern value="[0-9]*[A-Z]*" />
+                    </restriction>
+                </simpleType>
+            </element>
+            <!-- Rue exemple: 22 Boulevard Gambetta 38000 Grenoble-->
+            <element name="rue" type="med:Appelation"/>
+            <!-- code postale francais: 5 int-->
+            <element name="codePostal">
+                <simpleType>
+                    <restriction base="string">
+                        <pattern value="[0-9]{5}" />
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ville" type="med:Appelation" />
+        </sequence>
+    </complexType>
+    
+    <!-- Class Infirmiers -->
+    <complexType name="Infirmiers">
+        <sequence>
+            <element name="infirmier" type="med:Infirmier"/>
+        </sequence>
+    </complexType>
+    
+    <!-- Class Infirmier -->
+    <complexType name="Infirmier">
+        <sequence>
+            <element name="nom" type="med:Appelation"/>
+            <element name="prenom" type="med:Appelation"/>
+            <element name="photo" type="med:Photo"/>
+        </sequence>
+        <attribute name="id" type="string" use="required"/>
+    </complexType>
+    
+    <!-- Restriction de Photo -->
+    <simpleType name="Photo">
+        <restriction base="string">
+            <pattern value="[A-Za-zéàèùçâêîôûëïü]+\.(png|jpg|jpeg)" />
+        </restriction>
+    </simpleType>
+    
+    <!-- Class Visites -->
+    <complexType name="Visites">
+        <sequence>
+            <element name="visite" type="med:Visite"/>
+        </sequence>
+    </complexType>
+    
+    <!-- Class Visite -->
+    <complexType name="Visite">
+        <sequence>
+            <element name="actes" type="med:Actes" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="date" type="date" use="required"/>
+        <attribute name="intervenant" type="string" use="required"/>
+    </complexType>
+
+    <!-- Class Actes -->
+    <complexType name="Actes">
+        <sequence>
+            <element name="acte" type="med:Acte" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    
+    <!-- Class Acte  reference apres avec actes.xml-->
+    <complexType name="Acte">
+        <sequence>
+            <element name="type" type="string"/>
+            <element name="coef" type="float"/>
+        </sequence>
+        <attribute name="id" type="string" use="required"/>
+    </complexType>
+
+    <!-- Restriction du prénom/nom -->
+    <simpleType name="Appelation">
+        <restriction base="string">
+            <!-- Exemple : "Jean", "Jean Dupont", "Jean-Claude", "Kapoëtla" -->
+            <pattern value="([A-Za-zÀ-ÖØ-öø-ÿ]+([ -][A-Za-zÀ-ÖØ-öø-ÿ]+)*)"/>
+        </restriction>
+    </simpleType>
+</schema>
