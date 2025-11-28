@@ -9,7 +9,7 @@
     <xsl:output method="html"/>
 
     <!-- Variable pour accéder aux actes -->
-    <xsl:variable name="actes" select="document('actes.xml')/act:ngap"/>
+    <xsl:variable name="actes" select="document('actes.xml', /)/act:ngap"/>
     <!-- Modèle de sortie -->
     <xsl:template match="/">
         <!-- Paramètres -->
@@ -22,9 +22,7 @@
                 <title>Infirmier Page</title>
 
                 <!-- Script pour la facture -->
-                <script type="text/javascript">
-                    
-                </script>
+                <script type="text/javascript" src="js/facture.js"> </script>
             </head>
             <body>
                 <h1>Service <xsl:value-of select="/med:cabinet/med:nom"/></h1>
@@ -35,16 +33,18 @@
                 <!-- A la suite de la phrase d’accueil, on souhaite lister pour chaque patient à visiter (et dans l’ordre de visite), 
                son nom, son adresse correctement mise en forme et la liste des soins à effectuer -->
 
+                <!-- Il faut essayer d'afficher les patients sans utiliser for each ici -->
+
                 <table>  
-                    <xsl:for-each select="/med:cabinet/med:patients/med:patient[med:visites/med:visite/@intervenant = $infirmierId]">
+                    <xsl: select="/med:cabinet/med:patients/med:patient[med:visites/med:visite/@intervenant = $infirmierId]">
                         <tr>
                             <td><xsl:value-of select="med:nom"/></td>
                             <td><xsl:value-of select="med:prenom"/></td>
-                            <xsl:for-each select="med:visites/med:visite[@intervenant = $infirmierId]">  
+                            <xsl: select="med:visites/med:visite[@intervenant = $infirmierId]">  
                                 <td colspan="2">
                                     Visite du <xsl:value-of select="@date"/>
                                     <table>
-                                        <xsl:for-each select="med:actes/med:acte">
+                                        <xsl: select="med:actes/med:acte">
                                             <tr>
                                                 <!-- Récupérer l'ID de l'acte actuel -->
                                                 <xsl:variable name="acteId" select="@id"/>
@@ -56,25 +56,25 @@
                                                 
                                                 <td>Coef : <xsl:value-of select="med:coef"/></td>
                                             </tr>
-                                        </xsl:for-each>
+                                        </xsl:>
                                     </table>
 
                                     <!-- Bouton Facture -->
                                     <xsl:element name="button">
                                         <xsl:attribute name="onclick">
                                             openFacture(
-                                            '<xsl:value-of select="../../prenom"/>',
-                                            '<xsl:value-of select="../../nom"/>',
-                                            '<xsl:value-of select="actes/acte/@id"/>'
+                                            '<xsl:value-of select="../../med:prenom"/>',
+                                            '<xsl:value-of select="../../med:nom"/>',
+                                            '<xsl:value-of select="med:actes/med:acte/@id"/>'
                                             )
                                         </xsl:attribute>
                                         Facture
                                     </xsl:element>
                                     
                                 </td>
-                            </xsl:for-each>
+                            </xsl:>
                         </tr>
-                    </xsl:for-each>
+                    </xsl:>
                 </table>  
             </body>
         </html>
