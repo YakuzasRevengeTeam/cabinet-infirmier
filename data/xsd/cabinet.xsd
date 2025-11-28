@@ -104,7 +104,7 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
     <!-- Class Infirmiers -->
     <complexType name="Infirmiers">
         <sequence>
-            <element name="infirmier" type="med:Infirmier"/>
+            <element name="infirmier" type="med:Infirmier" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
     
@@ -128,7 +128,7 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
     <!-- Class Visites -->
     <complexType name="Visites">
         <sequence>
-            <element name="visite" type="med:Visite"/>
+            <element name="visite" type="med:Visite" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
     
