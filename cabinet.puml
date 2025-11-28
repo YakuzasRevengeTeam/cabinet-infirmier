@@ -1,0 +1,85 @@
+@startuml
+/'A verifier le type de id, numero, photo'/
+/'A verifier class visite et acte'/
+
+'root'
+class cabinet {
+    <<root>>
+}
+class Cabinet {
+  - nom : String
+  - adresse : Adresse
+  - infirmiers : Infirmiers
+  - patients : Patients
+}
+
+class Adresse {
+  - etage : String
+  - numero : String
+  - rue : String
+  - codePostal : String
+  - ville : String
+}
+
+class Infirmiers {
+
+}
+
+class Patients {
+
+}
+
+class Visites {
+
+}
+
+class Actes {
+
+}
+
+class Infirmier {
+  - id : String
+   'simple type restriction'
+  - nom : String
+  - prenom : String
+  - photo : String 
+  /'pour le chemin du fichier photo'/
+}
+
+class Patient {
+  - nom : String
+  - prenom : String
+  - naissance : Date
+  - numSecu : String
+  'simple type restriction'
+  - adresse : Adresse
+  - visites : List<Visite>
+}
+
+class Visite {
+  - date : Date
+  - intervenant : Infirmier  
+  - actes : List<Acte>
+}
+
+class Acte {
+  - id : String
+  - type : String
+  - coef: float
+}
+
+' Relations
+cabinet "1" *-- "1" Cabinet
+Cabinet "1" *-- "1" Adresse
+Cabinet "1" *-- "3..*" Infirmiers
+Cabinet "1" *-- "0..*" Patients
+Infirmiers "1" *-- "1..*" Infirmier
+Patients "1" *-- "1..*" Patient
+Patient "1" *-- "1" Adresse
+Patient "1" *-- "0..*" Visites
+Visites "1" *-- "1..*" Visite
+Visite "1" *-- "1..*" Actes
+Actes "1" *-- "1..*" Acte
+Patient "0..1" --> "1" Infirmier : assignée à
+Visite --> Infirmier : effectuée par
+@enduml

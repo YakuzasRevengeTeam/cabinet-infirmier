@@ -9,7 +9,6 @@
 
     <ItemGroup>
         <Folder Include="data\css\"/>
-        <Folder Include="data\html\"/>
     </ItemGroup>
 
 </Project>
