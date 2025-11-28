@@ -48,12 +48,7 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
             <element name="adresse" type="med:Adresse" />
             <element name="naissance" type="date" />
             <element name="visites" type="med:Visites" />
-            <element name="numéro" type="med:NumeroSecu">
-                <unique name="patient-Id">
-                    <selector xpath="Patient"/>
-                    <field xpath="@numéro"/>
-                </unique> 
-            </element>
+            <element name="numéro" type="med:NumeroSecu"/>
         </sequence>
     </complexType>
     
