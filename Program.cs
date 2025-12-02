@@ -13,3 +13,21 @@ foreach (var nom in nominfirs)
 {
     Console.WriteLine(" -> " + nom);
 }
+
+DOM2XPath cabinetDOM = new DOM2XPath("./xml/cabinet.xml");
+
+
+// • 3 infirmiers
+String verifierNbInfirmiers = "//";
+// • 4 patients
+String verifierNbPatients = "//";
+// • une adresse complète pour le cabinet
+String verifierAddCabinet = "//";
+// • une adresse complète pour chaque patient
+String verifierAddPatient = "//";
+// • qu’un numéro de sécurité sociale est valide par rapport aux informations fournies (date de naissance,
+// et sexe, mais aussi vérifier à l’intérieur du numéro de sécu si la clef est valide).
+String verifierNumSecu = "//";
+// • que l’ensemble des numéros de sécurité sociale sont valides par rapport aux informations fournies
+String verifierEnsembleNumSecu = "//";
+
