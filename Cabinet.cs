@@ -25,6 +25,10 @@ public class Cabinet
           {
               switch (reader.NodeType)
               {
+                  case XmlNodeType.XmlDeclaration:
+                      Console.WriteLine(" Entering the XML document");
+                      break;
+                  
                   case XmlNodeType.Document:
                       // instructions à executer quand on entre dans le document
                       Console.Write("Entering the document");
@@ -66,10 +70,11 @@ public class Cabinet
   
   // Ecrivez une autre fonction qui permet de récupérer le texte d’éléments particuliers (par exemple tous les noms, ou tous les noms des infirmiers).
   // Idéalement, votre recherche doit être passée en paramètre de la fonction.
-  static public HashSet<String> GetNom(String filename)
+  public static HashSet<String> GetNom(String filename)
   {
       XmlReader reader =  XmlReader.Create(filename);
       HashSet<string> noms = new HashSet<string>();
+      
       while (reader.Read())
           switch (reader.NodeType)
           {
@@ -77,13 +82,16 @@ public class Cabinet
                   if (reader.Name == "cabinet")
                       Console.WriteLine("Commence à explorer la cabinet");
                   
-                  if (reader.IsStartElement("nom"))
+                  // Quand on trouve un élément <nom>, lire son contenu texte
+                  if (reader.Name == "nom")
                   {
-                      reader.MoveToFirstAttribute();
-                      Console.WriteLine("   -> un attribut {0} trouvé, de valeur {1}", reader.Name, reader.Value);
-                      noms.Add(reader.Name);
+                      // Lire le texte à l'intérieur de <nom>
+                      string nomValue = reader.ReadElementContentAsString();
+                      Console.WriteLine($"Nom trouvé: {nomValue}");
+                      noms.Add(nomValue);
                   }
                   break;
+              
               case XmlNodeType.EndElement:
                   if (reader.Name == "cabinet")
                       Console.WriteLine("Ending the element {0}", reader.Name);
@@ -91,22 +99,56 @@ public class Cabinet
           }
       return noms;
   }
-  // Créez une autre fonction utilisant le XmlReader pour compter combien d’actes différents devront être
-  // effectués, tous patients confondus.
-  static public int CountActes(String filename)
+  
+  // Version améliorée: récupérer uniquement les noms des infirmiers
+  public static HashSet<string> GetNomsInfirmiers(string filename)
   {
       XmlReader reader = XmlReader.Create(filename);
-      int actes = 0;
-      List<String> ids = new List<String>();
-      reader.MoveToContent();
+      HashSet<string> noms = new HashSet<string>();
+      bool dansInfirmiers = false;
+      
       while (reader.Read())
+      {
           switch (reader.NodeType)
           {
               case XmlNodeType.Element:
-                  if (reader.IsStartElement("acte"))
-                    actes++;
+                  // Détecter quand on entre dans la section infirmiers
+                  if (reader.Name == "infirmiers")
+                      dansInfirmiers = true;
+                    
+                  // Si on est dans <infirmiers> et qu'on trouve un <nom>
+                  if (dansInfirmiers && reader.Name == "nom")
+                  {
+                      string nomValue = reader.ReadElementContentAsString();
+                      Console.WriteLine($"  ️ Infirmier: {nomValue}");
+                      noms.Add(nomValue);
+                  }
+                  break;
+                    
+              case XmlNodeType.EndElement:
+                  // Détecter quand on sort de la section infirmiers
+                  if (reader.Name == "infirmiers")
+                      dansInfirmiers = false;
                   break;
           }
-      return actes;
+      }
+      return noms;
+  }
+  
+  // Créez une autre fonction utilisant le XmlReader pour compter combien d’actes différents devront être
+  // effectués, tous patients confondus.
+  public static int CountActes(String filename)
+  {
+      XmlReader reader = XmlReader.Create(filename);
+      int actesTotal = 0;
+      
+      reader.MoveToContent();
+      while (reader.Read())
+          if (reader.NodeType == XmlNodeType.Element && reader.Name == "acte")
+          {
+              actesTotal++;
+              Console.WriteLine($"  Acte #{actesTotal}");
+          }
+      return actesTotal;
   }
 }

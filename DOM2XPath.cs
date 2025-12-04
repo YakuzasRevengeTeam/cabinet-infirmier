@@ -12,21 +12,21 @@ namespace CabinetInfirmier;
 // et sexe, mais aussi vérifier à l’intérieur du numéro de sécu si la clef est valide).
 // • que l’ensemble des numéros de sécurité sociale sont valides par rapport aux informations fournies
  
-public class DOM2XPath
+public class Dom2XPath
 {
-    private XmlDocument doc;
+    private XmlDocument _doc;
     
-    public DOM2XPath(String filename) 
+    public Dom2XPath(String filename) 
     {
-        doc = new XmlDocument();
-        doc.Load(filename);
+        _doc = new XmlDocument();
+        _doc.Load(filename);
     }
 
-    public XmlNodeList GetXPath(String nsPrefix, String nsURI, String expression)
+    public XmlNodeList GetXPath(String nsPrefix, String nsUri, String expression)
     {
-        XmlNode root = doc.DocumentElement;
-        XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-        nsmgr.AddNamespace(nsPrefix, nsURI);
+        XmlNode root = _doc.DocumentElement;
+        XmlNamespaceManager nsmgr = new XmlNamespaceManager(_doc.NameTable);
+        nsmgr.AddNamespace(nsPrefix, nsUri);
         return root.SelectNodes(expression, nsmgr); 
     }
 }
