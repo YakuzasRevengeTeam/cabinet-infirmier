@@ -4,59 +4,59 @@ le cahier des charges du projet “Cabinet infirmier”.
 L’objectif est de créer une modélisation UML + XSD, puis d’aller plus loin avec XML, XSLT, et un mini-serveur.
 Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-       targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/medical"
-       xmlns:med="http://www.univ-grenoble-alpes.fr/l3miage/medical"
-       elementFormDefault="qualified">
+<schema xmlns:med="http://www.univ-grenoble-alpes.fr/l3miage/medical"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/medical"
+        elementFormDefault="qualified">
 
     <!-- Element racine -->
-    <element name="cabinet" type="med:Cabinet" >
+    <element name="cabinet" type="med:Cabinet">
         <!-- Clé -->
         <key name="idUnique">
             <selector xpath="med:Infirmier"/>
             <field xpath="@id"/>
         </key>
-    </element>       
+    </element>
 
     <!-- Contraindre davantage : clefs d’existence et d’unicité
     Modifiez le Schema XML du centre de soin de façon à ce que les identifiants des médecins soient uniques.
     Modifiez le Schema XML du centre de soin de façon à ce que les identifiants des médecins auquels se
     réfèrent les patients existent. -->
-    
-    
+
+
     <complexType name="Cabinet">
         <sequence>
-            <element name="nom" type="string" />
-            <element name="adresse" type="med:Adresse" />
-            <element name="patients" type="med:Patients" />
-            <element name="infirmiers" type="med:Infirmiers" />
+            <element name="nom" type="string"/>
+            <element name="adresse" type="med:Adresse"/>
+            <element name="patients" type="med:Patients"/>
+            <element name="infirmiers" type="med:Infirmiers"/>
         </sequence>
     </complexType>
 
     <!-- Liste de Patients -->
     <complexType name="Patients">
         <sequence>
-            <element name="patient" type="med:Patient" maxOccurs="unbounded" />
+            <element name="patient" type="med:Patient" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
-    
+
     <!-- Patient -->
     <complexType name="Patient">
         <sequence>
-            <element name="nom" type="med:Appelation" />
-            <element name="prenom" type="med:Appelation" />
-            <element name="adresse" type="med:Adresse" />
-            <element name="naissance" type="date" />
-            <element name="visites" type="med:Visites" />
+            <element name="nom" type="med:Appelation"/>
+            <element name="prenom" type="med:Appelation"/>
+            <element name="adresse" type="med:Adresse"/>
+            <element name="naissance" type="date"/>
+            <element name="visites" type="med:Visites"/>
             <element name="numéro" type="med:NumeroSecu">
                 <unique name="patient-Id">
                     <selector xpath="Patient"/>
                     <field xpath="@numéro"/>
-                </unique> 
+                </unique>
             </element>
         </sequence>
     </complexType>
-    
+
     <!-- N° de sécurité social -->
     <simpleType name="NumeroSecu">
         <restriction base="string">
@@ -70,7 +70,7 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
             2 derniers chiffres (00 .. 99)
             -->
             <!--            | Sex |  Année  |     Mois    | Département   | Code commune | Code naissance | 2 chiffres -->
-            <pattern value="([1-2])([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[1-9][0-9])([0-9]{3})([0-9]{3})([0-9]{2})" />
+            <pattern value="([1-2])([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[1-9][0-9])([0-9]{3})([0-9]{3})([0-9]{2})"/>
         </restriction>
     </simpleType>
 
@@ -79,11 +79,11 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
         <!-- étage(si besoin), numéro(s'il existe), rue, ville, codePostal -->
         <sequence>
             <!-- RDC, 1, 2, 3 -->
-            <element name="etage" type="string" minOccurs="0" />
+            <element name="etage" type="string" minOccurs="0"/>
             <element name="numero" minOccurs="0">
                 <simpleType>
                     <restriction base="string">
-                        <pattern value="[0-9]*[A-Z]*" />
+                        <pattern value="[0-9]*[A-Z]*"/>
                     </restriction>
                 </simpleType>
             </element>
@@ -93,21 +93,21 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
             <element name="codePostal">
                 <simpleType>
                     <restriction base="string">
-                        <pattern value="[0-9]{5}" />
+                        <pattern value="[0-9]{5}"/>
                     </restriction>
                 </simpleType>
             </element>
-            <element name="ville" type="med:Appelation" />
+            <element name="ville" type="med:Appelation"/>
         </sequence>
     </complexType>
-    
+
     <!-- Class Infirmiers -->
     <complexType name="Infirmiers">
         <sequence>
             <element name="infirmier" type="med:Infirmier" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
-    
+
     <!-- Class Infirmier -->
     <complexType name="Infirmier">
         <sequence>
@@ -117,21 +117,21 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
         </sequence>
         <attribute name="id" type="string" use="required"/>
     </complexType>
-    
+
     <!-- Restriction de Photo -->
     <simpleType name="Photo">
         <restriction base="string">
-            <pattern value="[A-Za-zéàèùçâêîôûëïü]+\.(png|jpg|jpeg)" />
+            <pattern value="[A-Za-zéàèùçâêîôûëïü]+\.(png|jpg|jpeg)"/>
         </restriction>
     </simpleType>
-    
+
     <!-- Class Visites -->
     <complexType name="Visites">
         <sequence>
             <element name="visite" type="med:Visite" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
-    
+
     <!-- Class Visite -->
     <complexType name="Visite">
         <sequence>
@@ -147,7 +147,7 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
             <element name="acte" type="med:Acte" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
-    
+
     <!-- Class Acte  reference apres avec actes.xml-->
     <complexType name="Acte">
         <sequence>

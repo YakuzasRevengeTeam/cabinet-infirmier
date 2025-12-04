@@ -1,8 +1,6 @@
 @startuml
-/'A verifier le type de id, numero, photo'/
-/'A verifier class visite et acte'/
-
 'root'
+package http://www-univ-grenoble-alpes-fr/l3miage/medical {
 class cabinet {
     <<root>>
 }
@@ -82,4 +80,6 @@ Visite "1" *-- "1..*" Actes
 Actes "1" *-- "1..*" Acte
 Patient "0..1" --> "1" Infirmier : assignée à
 Visite --> Infirmier : effectuée par
+}
+
 @enduml

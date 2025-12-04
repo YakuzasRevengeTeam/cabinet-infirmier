@@ -1,6 +1,4 @@
-var factureText = afficherFacture(prenom, nom, actes);
-
-function afficherFacture(prenom, nom, actes) {
+function openFacture(prenom, nom, actes) {
     var width = 500;
     var height = 300;
     if (window.innerWidth) {
