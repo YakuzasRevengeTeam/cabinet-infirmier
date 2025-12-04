@@ -58,7 +58,7 @@ Console.WriteLine(new string('-', 50));
 
 Dom2XPath cabinetDom = new Dom2XPath("./data/xml/cabinet.xml");
 
-// Vérification du nombre d'infirmiers
+// Vérification du nombre d'infirmiers 
 String verifNbInfirmiersExpression = "//med:infirmiers/med:infirmier";
 XmlNodeList nlNbInfirmiersDom = cabinetDom.GetXPath("med", 
     "http://www.univ-grenoble-alpes.fr/l3miage/medical", verifNbInfirmiersExpression);

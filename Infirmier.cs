@@ -1,7 +1,5 @@
 using System.Xml.Serialization;
 
-namespace CabinetInfirmier;
-
 // Les champs de ces 2 classes (ex: numéro, rue, codePostal, ...)
 // peuvent être amenés à être modifiés depuis le programme C#, par exemple via
 // un formulaire. Cela signifie que, si aucune précaution n’est prise, une personne mal informée ou mal
@@ -12,31 +10,31 @@ namespace CabinetInfirmier;
 // Adresse et Infirmier en leur ajoutant des propriétés (qui deviennent les attributs de classe sérialisés) de
 // telle manière que leurs setters contraignent les valeurs possibles, en accord avec le schéma que vous avez
 // écrit.
-[XmlRoot ("adresse", Namespace = "http://www.univ-grenoble-alpes.fr/l3miage/medical")]
+[XmlRoot ("infirmier", Namespace = "http://www.univ-grenoble-alpes.fr/l3miage/medical")]
 [Serializable]
-public class Adresse
+public class Infirmier
 {
-    // numero>10</numero>
-    // <rue>Avenue Alsace-Lorraine</rue>
-    // <codePostal>38000</codePostal>
-    // <ville>Grenoble</ville>
-    [XmlAttribute ("numero")] public string Num { get; set; }
-    [XmlAttribute ("rue")] public string Rue { get; set; }
-    [XmlAttribute ("codePostal")] public string CodePostal { get; set; }
-    [XmlAttribute ("ville")] public string Ville { get; set; }
-
+    // <infirmier id="001">
+    // <nom>Luu</nom>
+    // <prenom>Loc</prenom>
+    // <photo>loc.png</photo>
+    // </infirmier>
+    [XmlAttribute ("nom")] public String Nom { get; set; }
+    [XmlAttribute ("prenom")] public String Prenom { get; set; }
+    [XmlAttribute ("photo")] public String Photo { get; set; }
+    
     public override string ToString()
     {
         string s = "";
-        s += Num + ", " + Rue + ", " + CodePostal + ", " + Ville;
+        s += Nom + " , " + Prenom + " , " ;
         return s;
     }
 
-    public Adresse(string numero, string rue, string codePostal, string ville)
+    public Infirmier(string nom, string prenom, string photo)
     {
-        Num = numero;
-        Rue = rue;
-        CodePostal = codePostal;
-        Ville = ville;
+        Nom = nom;
+        Prenom = prenom;
+        Photo = photo;
     } 
+    
 }
