@@ -20,7 +20,7 @@
                 <title>Infirmier Page</title>
 
                 <!-- Script pour la facture -->
-                <script type="text/javascript" src="../js/facture.js"> </script>
+                <script type="text/javascript" src="../js/buttonScript.js"> </script>
             </head>
             <body>
                 <h1>Service

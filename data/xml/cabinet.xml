@@ -102,9 +102,9 @@
     <!-- Liste des infirmiers -->
     <infirmiers>
         <infirmier id="001">
-          <nom>Luu</nom>
-          <prenom>Loc</prenom>
-          <photo>loc.png</photo>
+          <nom>Nola</nom>
+          <prenom>Dubois</prenom>
+          <photo>Nola.png</photo>
         </infirmier>
 
         <infirmier id="002">
