@@ -102,14 +102,20 @@
     <!-- Liste des infirmiers -->
     <infirmiers>
         <infirmier id="001">
-          <nom>Nola</nom>
+          <nom>Annie</nom>
           <prenom>Dubois</prenom>
-          <photo>Nola.png</photo>
+          <photo>Annie.png</photo>
         </infirmier>
 
         <infirmier id="002">
             <nom>Martin</nom>
             <prenom>Sarah</prenom>
+            <photo>Martin.jpg</photo>
+        </infirmier>
+        
+        <infirmier id="003">
+            <nom>Sarah</nom>
+            <prenom>Kennel</prenom>
             <photo>Sarah.jpg</photo>
         </infirmier>
     </infirmiers>

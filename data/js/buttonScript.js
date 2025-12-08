@@ -12,6 +12,25 @@ function openFacture(prenom, nom, actes) {
         'menubar=yes, scrollbars=yes, top=' + top +
         ', left=' + left + ', width=' + width +
         ', height=' + height);
-    factureText = "Facture pour : " + prenom + " " + nom;
+    var factureText = "Facture pour : " + prenom + " " + nom + "<br>";
+    if (actes && actes.length > 0) {
+        factureText += "Actes : <ul>";
+        for (var i = 0; i < actes.length; i++) {
+            factureText += "<li>" + actes[i] + "</li>";
+        }
+        factureText += "</ul>";
+    }
     factureWindow.document.write(factureText);
+}
+
+// Fonction pour afficher les détails du patient
+function showPatientDetails(patientId) {
+    // Simule l'ouverture d'une page patient
+    window.open('patient.html?id=' + patientId, '_blank');
+}
+
+// Fonction pour marquer une visite comme terminée
+function markVisitDone(visitId) {
+    // Simule la mise à jour (en réalité, enverrait à un serveur)
+    alert('Visite ' + visitId + ' marquée comme terminée.');
 }

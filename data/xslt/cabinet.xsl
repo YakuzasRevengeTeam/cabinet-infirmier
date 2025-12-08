@@ -15,7 +15,7 @@
 
         <html lang="en">
             <head>
-                <link rel="stylesheet" href="../css/style.css"/>
+                <link rel="stylesheet" href="../css/infirmierPage.css"/>
                 <meta charset="UTF-8"/>
                 <title>Infirmier Page</title>
 
@@ -27,8 +27,8 @@
                     <xsl:value-of select="/med:cabinet/med:nom"/>
                 </h1>
                 Bonjour
-                <xsl:value-of select="/med:cabinet/med:infirmiers/med:infirmier[@id = $infirmierId]/med:nom"/>
-                
+                <xsl:value-of select="/med:cabinet/med:infirmiers/med:infirmier[@id = $infirmierId]/med:nom"/>,
+                <br/>
                 Aujourd'hui, vous avez
                 <xsl:value-of
                         select="count(/med:cabinet/med:patients/med:patient[med:visites/med:visite/@intervenant = $infirmierId])"/>
@@ -69,11 +69,7 @@
             Visite du
             <xsl:value-of select="@date"/>
             <table>
-                <tr>
-                    <td>Coef :
-                        <xsl:apply-templates select="med:actes/med:acte/med:coef"/>
-                    </td>
-                </tr>
+                <xsl:apply-templates select="med:actes/med:acte"/>
             </table>
 
             <!-- Bouton Facture -->
@@ -88,5 +84,11 @@
                 Facture
             </xsl:element>
         </td>
+    </xsl:template>
+
+    <xsl:template match="med:acte">
+        <tr>
+            <td>Coef : <xsl:value-of select="med:coef"/></td>
+        </tr>
     </xsl:template>
 </xsl:stylesheet>

@@ -1,92 +1,71 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<xsl:stylesheet
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:med="http://www.univ-grenoble-alpes.fr/l3miage/medical"
-        version="1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+    <xsl:output method="html" indent="yes"/>
 
-    <!-- Type de sortie -->
-    <xsl:output method="html"/>
-
-    <!-- Variable pour accéder aux actes -->
-    <!-- Modèle de sortie -->
     <xsl:template match="/">
-        <!-- Paramètres -->
-        <xsl:param name="infirmierId">001</xsl:param>
-
-        <html lang="en">
+        <html lang="fr">
             <head>
-                <link rel="stylesheet" href="../css/style.css"/>
                 <meta charset="UTF-8"/>
-                <title>Infirmier Page</title>
-
-                <!-- Script pour la facture -->
-                <script type="text/javascript" src="../js/facture.js"> </script>
+                <title>Fiche Patient</title>
+                <link rel="stylesheet" href="../css/style.css"/>
+                <link rel="stylesheet" href="../css/pagePatient.css"/>
             </head>
             <body>
-                <h1>Service
-                    <xsl:value-of select="/med:cabinet/med:nom"/>
-                </h1>
-                Bonjour
-                <xsl:value-of select="/med:cabinet/med:infirmiers/med:infirmier[@id = $infirmierId]/med:nom"/>
-
-                Aujourd'hui, vous avez
-                <xsl:value-of
-                        select="count(/med:cabinet/med:patients/med:patient[med:visites/med:visite/@intervenant = $infirmierId])"/>
-                patients.
-
-                <!-- A la suite de la phrase d’accueil, on souhaite lister pour chaque patient à visiter (et dans l’ordre de visite), 
-               son nom, son adresse correctement mise en forme et la liste des soins à effectuer -->
-
-                <table>
-                    <xsl:apply-templates select="/med:cabinet/med:patients/med:patient[med:visites/med:visite/@intervenant = $infirmierId]">
-                        <xsl:with-param name="infirmierId" select="$infirmierId"/>
-                    </xsl:apply-templates>
-                </table>
+                <header>
+                    <h1>Fiche Patient</h1>
+                </header>
+                <main class="container">
+                    <xsl:apply-templates select="patient"/>
+                </main>
             </body>
         </html>
     </xsl:template>
 
-    <xsl:template match="med:patient">
-        <xsl:param name="infirmierId"/>
+    <xsl:template match="patient">
+        <div class="patient-header">
+            <h2><xsl:value-of select="prénom"/><xsl:text> </xsl:text><xsl:value-of select="nom"/></h2>
+        </div>
+        <section>
+            <h3>Informations personnelles</h3>
+            <xsl:if test="sexe"><p><strong>Sexe :</strong> <xsl:value-of select="sexe"/></p></xsl:if>
+            <p><strong>Naissance :</strong> <xsl:value-of select="naissance"/></p>
+            <p><strong>Numéro SS :</strong> <xsl:value-of select="numéroSS"/></p>
+            <xsl:apply-templates select="adresse"/>
+        </section>
+        <section>
+            <h3>Visites</h3>
+            <table class="patient-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Intervenant</th>
+                        <th>Actes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <xsl:apply-templates select="visite"/>
+                </tbody>
+            </table>
+        </section>
+    </xsl:template>
+
+    <xsl:template match="adresse">
+        <p><strong>Adresse :</strong> <xsl:value-of select="rue"/>, <xsl:value-of select="codePostal"/><xsl:text> </xsl:text><xsl:value-of select="ville"/></p>
+    </xsl:template>
+
+    <xsl:template match="visite">
         <tr>
+            <td><xsl:value-of select="@date"/></td>
+            <td><xsl:value-of select="intervenant/prénom"/><xsl:text> </xsl:text><xsl:value-of select="intervenant/nom"/></td>
             <td>
-                <xsl:value-of select="med:nom"/>
+                <ul>
+                    <xsl:apply-templates select="acte"/>
+                </ul>
             </td>
-            <td>
-                <xsl:value-of select="med:prenom"/>
-            </td>
-            <xsl:apply-templates select="med:visites/med:visite[@intervenant = $infirmierId]">
-                <xsl:with-param name="nom" select="med:nom"/>
-                <xsl:with-param name="prenom" select="med:prenom"/>
-            </xsl:apply-templates>
         </tr>
     </xsl:template>
 
-    <xsl:template match="med:visite">
-        <xsl:param name="nom"/>
-        <xsl:param name="prenom"/>
-        <td colspan="2">
-            Visite du
-            <xsl:value-of select="@date"/>
-            <table>
-                <tr>
-                    <td>Coef :
-                        <xsl:apply-templates select="med:actes/med:acte/med:coef"/>
-                    </td>
-                </tr>
-            </table>
-
-            <!-- Bouton Facture -->
-            <xsl:element name="button">
-                <xsl:attribute name="onclick">
-                    openFacture(
-                    '<xsl:value-of select="$prenom"/>',
-                    '<xsl:value-of select="$nom"/>',
-                    '<xsl:value-of select="med:actes/med:acte/@id"/>'
-                    )
-                </xsl:attribute>
-                Facture
-            </xsl:element>
-        </td>
+    <xsl:template match="acte">
+        <li><xsl:value-of select="."/> (coef: <xsl:value-of select="@coef"/>)</li>
     </xsl:template>
 </xsl:stylesheet>

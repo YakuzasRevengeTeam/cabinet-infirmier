@@ -1,10 +1,32 @@
-body {background-color: powderblue;}
-h1   {color: blue;}
-p    {color: red;}
-table, th,  td {
-    border: 1px solid white;
-    border-collapse: collapse;
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height: 1.5;
+    background: #ffffff; /* fond clair */
+    color: #1f2937;      /* texte foncé */
 }
-th, td {
-    background-color: #96D4D4;
+
+/* Liens */
+a { color: #2563eb; text-decoration: none; }
+a:hover, a:focus { text-decoration: underline; }
+
+/* Conteneur centré */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 16px;
 }
+
+/* Espacements utilitaires */
+.mt-2 { margin-top: 16px; }
+.mb-2 { margin-bottom: 16px; }
+.p-2  { padding: 16px; }
+
+/* En-têtes et pied de page */
+header, footer { padding: 12px 0; }
+main { padding: 16px 0; }
+
+/* Séparateur */
+hr { border: 0; border-top: 1px solid #e5e7eb; margin: 16px 0; }

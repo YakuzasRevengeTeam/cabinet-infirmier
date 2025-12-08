@@ -31,11 +31,11 @@ public class XMLUtils
         }
     }
     
-    public static void XslTransform(string xmlFilePath, string xsltFilePath, string htmlFilePath) {
+    public static void XslTransform(string xmlFilePath, string xsltFilePath, string outputFilePath, XsltArgumentList? args = null) {
         XPathDocument xpathDoc = new XPathDocument(xmlFilePath);
         XslCompiledTransform xslt = new XslCompiledTransform();
         xslt.Load(xsltFilePath);
-        XmlTextWriter htmlWriter = new XmlTextWriter(htmlFilePath,null);
-        xslt.Transform(xpathDoc,null,htmlWriter);
+        using var writer = new XmlTextWriter(outputFilePath, null);
+        xslt.Transform(xpathDoc, args, writer);
     }
 }
