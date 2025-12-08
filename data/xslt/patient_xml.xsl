@@ -4,7 +4,6 @@
   - Entrée: cabinet.xml (namespace med)
   - Paramètre: destinedName (nom du patient à extraire)
   - Sortie: NOMPATIENT.xml
-  - Contraintes: utiliser xsl:apply-templates + xsl:template (pas de for-each)
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:med="http://www.univ-grenoble-alpes.fr/l3miage/medical"
