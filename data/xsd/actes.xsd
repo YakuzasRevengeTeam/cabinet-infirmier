@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/actes"
+        xmlns:ng="http://www.univ-grenoble-alpes.fr/l3miage/actes"
+        elementFormDefault="qualified">
+
+   
+    <element name="ngap" type="ng:NGAP"/>
+
+    <!-- NGAP -->
+    <complexType name="NGAP">
+        <sequence>
+            <element name="types" type="ng:Types"/>
+            <element name="actes" type="ng:Actes"/>
+        </sequence>
+    </complexType>
+
+    <!-- Liste des types -->
+    <complexType name="Types">
+        <sequence>
+            <element name="type" type="ng:Type" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Type" mixed="true">
+        <attribute name="id" type="ng:typed" use="required"/>
+    </complexType>
+
+    <simpleType name="typed">
+        <restriction base="string">
+            <enumeration value="pi"/>
+            <enumeration value="pc"/>
+            <enumeration value="pl"/>
+            <enumeration value="sd"/>
+        </restriction>
+    </simpleType>
+
+    <!-- Liste des actes -->
+    <complexType name="Actes">
+        <sequence>
+            <element name="acte" type="ng:Acte" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <!-- Un acte -->
+    <complexType name="Acte" mixed="true">
+        <attribute name="id" type="string" use="required"/>  
+        <attribute name="type" type="ng:typed" use="required"/>
+        <attribute name="clé" use="required">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="AMI"/>
+                    <enumeration value="DI"/>
+                    <enumeration value="AIS"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="coef" type="decimal" use="required"/>
+    </complexType>
+
+</schema>

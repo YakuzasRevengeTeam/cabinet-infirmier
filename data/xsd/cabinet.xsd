@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--namespace: http://www.univ-grenoble-alpes.fr/l3miage/medical
-le cahier des charges du projet “Cabinet infirmier”.
-L’objectif est de créer une modélisation UML + XSD, puis d’aller plus loin avec XML, XSLT, et un mini-serveur.
-Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
--->
+<!-- Schema XML pour le cabinet infirmier -->
 <schema xmlns:med="http://www.univ-grenoble-alpes.fr/l3miage/medical"
         xmlns="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://www.univ-grenoble-alpes.fr/l3miage/medical"
@@ -11,17 +7,17 @@ Cette premiere semaine c'est on concentré sur le XMLSchema et le plan UML
 
     <!-- Element racine -->
     <element name="cabinet" type="med:Cabinet">
-        <!-- Clé -->
-        <key name="idUnique">
-            <selector xpath="med:Infirmier"/>
+        <!-- Clé unique pour les identifiants des infirmiers -->
+        <key name="idInfirmier">
+            <selector xpath="med:infirmiers/med:infirmier"/>
             <field xpath="@id"/>
         </key>
+        <!-- Référence: l'intervenant doit exister parmi les infirmiers -->
+        <keyref name="refIntervenant" refer="med:idInfirmier">
+            <selector xpath="med:patients/med:patient/med:visites/med:visite"/>
+            <field xpath="@intervenant"/>
+        </keyref>
     </element>
-
-    <!-- Contraindre davantage : clefs d’existence et d’unicité
-    Modifiez le Schema XML du centre de soin de façon à ce que les identifiants des médecins soient uniques.
-    Modifiez le Schema XML du centre de soin de façon à ce que les identifiants des médecins auquels se
-    réfèrent les patients existent. -->
 
 
     <complexType name="Cabinet">

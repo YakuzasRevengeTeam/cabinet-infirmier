@@ -7,7 +7,7 @@ XMLUtils.ValidateXmlFileAsync("http://www.univ-grenoble-alpes.fr/l3miage/medical
 
 Console.WriteLine($"cwd: {Directory.GetCurrentDirectory()}");
 
-// Nom du patient à extraire (sera modifié plus tard par le WebService)
+// Nom du patient à extraire
 string patientName = "Pien";
 
 // Génération de la fiche patient XML: cabinet.xml -> NOMPATIENT.xml
@@ -17,8 +17,7 @@ string outputXmlPath = $"./data/xml/{patientName}.xml";
 XMLUtils.XslTransform("./data/xml/cabinet.xml", "./data/xslt/patient_xml.xsl", outputXmlPath, xsltArgs);
 Console.WriteLine($"Fichier XML généré: {outputXmlPath}");
 
-// Génération de la page HTML patient: NOMPATIENT.xml -> NOMPATIENT.html
-string outputHtmlPath = $"./data/html/{patientName}.html";
+// Génération de la page HTML patient: NOMPATIENT.xml -> patient.html
+string outputHtmlPath = "./data/html/patient.html";
 XMLUtils.XslTransform(outputXmlPath, "./data/xslt/patient_html.xsl", outputHtmlPath);
 Console.WriteLine($"Fichier HTML généré: {outputHtmlPath}");
-
